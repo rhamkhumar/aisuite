@@ -11,7 +11,13 @@ export DASHSCOPE_API_KEY="your-api-key"
 ### Example Using pip:
 
 ```shell
-pip install aisuite[dashscope]
+pip install aisuite[all]
+```
+
+### Example with poetry:
+
+```shell
+poetry add aisuite
 ```
 
 ### In Your Code:
@@ -42,4 +48,4 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
-Happy coding! If you would like to contribute, please read our [Contributing Guide](CONTRIBUTING.md).
+Happy coding! If you would like to contribute, please read our [Contributing Guide](../CONTRIBUTING.md).
