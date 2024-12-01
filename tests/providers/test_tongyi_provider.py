@@ -21,9 +21,9 @@ def test_tongyi_provider():
 
     provider = TongyiProvider()
     mock_response = MagicMock()
-    mock_response.choices = [MagicMock()]
-    mock_response.choices[0].message = MagicMock()
-    mock_response.choices[0].message.content = response_text_content
+    mock_response = {
+        "output": {"choices": [{"message": {"content": response_text_content}}]}
+    }
 
     with patch.object(
         dashscope.Generation, "call", return_value=mock_response

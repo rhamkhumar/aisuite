@@ -5,7 +5,7 @@ from aisuite.framework import ChatCompletionResponse
 
 
 class TongyiProvider(Provider):
-    """TongyiProvider is a class that provides an interface to the Tongyi model."""
+    """TongyiProvider is a class that provides an interface to the Tongyi's model."""
 
     def __init__(self, **config):
         self.api_key = config.get("api_key") or os.getenv("DASHSCOPE_API_KEY")
@@ -16,7 +16,7 @@ class TongyiProvider(Provider):
             )
 
     def chat_completions_create(self, model, messages, **kwargs):
-        """Send a chat completion request to the Tongyi model."""
+        """Send a chat completion request to the Tongyi's model."""
 
         response = dashscope.Generation.call(
             api_key=self.api_key,
@@ -25,7 +25,7 @@ class TongyiProvider(Provider):
             result_format="message",
             **kwargs
         )
-        return response
+        return self.normalize_response(response)
 
     def normalize_response(self, response):
         """Normalize the response from Dashscope to match OpenAI's response format."""
