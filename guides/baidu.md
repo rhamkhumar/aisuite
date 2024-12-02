@@ -1,4 +1,4 @@
-# Tongyi
+# Baidu
 
 To use Baidu's model, you must log in to the [Baidu AI Cloud Qianfan Large Model Service and Development Platform](https://cloud.baidu.com/doc/WENXINWORKSHOP/index.html) to obtain an Access Key and Secret Key. After obtaining these keys, configure them as environment variables using the following approach:
 
