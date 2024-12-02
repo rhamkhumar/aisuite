@@ -15,7 +15,7 @@ class SambanovaProvider(Provider):
             raise ValueError(
                 "Sambanova API key is missing. Please provide it in the config or set the SAMBANOVA_API_KEY environment variable."
             )
-        
+
         config["base_url"] = "https://api.sambanova.ai/v1/"
         # Pass the entire config to the OpenAI client constructor
         self.client = OpenAI(**config)
