@@ -4,6 +4,7 @@ from aisuite import Client
 
 
 class TestClient(unittest.TestCase):
+    @patch("aisuite.providers.baidu_provider.BaiduProvider.chat_completions_create")
     @patch("aisuite.providers.tongyi_provider.TongyiProvider.chat_completions_create")
     @patch("aisuite.providers.mistral_provider.MistralProvider.chat_completions_create")
     @patch("aisuite.providers.groq_provider.GroqProvider.chat_completions_create")
@@ -28,6 +29,7 @@ class TestClient(unittest.TestCase):
         mock_groq,
         mock_mistral,
         mock_tongyi,
+        mock_baidu,
     ):
         # Mock responses from providers
         mock_openai.return_value = "OpenAI Response"
@@ -39,6 +41,7 @@ class TestClient(unittest.TestCase):
         mock_google.return_value = "Google Response"
         mock_fireworks.return_value = "Fireworks Response"
         mock_tongyi.return_value = "Tongyi Response"
+        mock_baidu.return_value = "Baidu Response"
 
         # Provider configurations
         provider_configs = {
@@ -69,6 +72,10 @@ class TestClient(unittest.TestCase):
             },
             "tongyi": {
                 "api_key": "tongyi-api-key",
+            },
+            "baidu": {
+                "access_key": "baidu-access-key",
+                "secret_key": "baidu-secret-key",
             },
         }
 
@@ -147,6 +154,12 @@ class TestClient(unittest.TestCase):
         )
         self.assertEqual(tongyi_response, "Tongyi Response")
         mock_tongyi.assert_called_once()
+
+        # Test Baidu model
+        baidu_model = "baidu" + ":" + "ERNIE-3.5-8K"
+        baidu_response = client.chat.completions.create(baidu_model, messages=messages)
+        self.assertEqual(baidu_response, "Baidu Response")
+        mock_baidu.assert_called_once()
 
         # Test that new instances of Completion are not created each time we make an inference call.
         compl_instance = client.chat.completions
