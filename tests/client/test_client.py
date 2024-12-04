@@ -139,6 +139,31 @@ class TestClient(unittest.TestCase):
         next_compl_instance = client.chat.completions
         assert compl_instance is next_compl_instance
 
+    @patch("aisuite.providers.openai_provider.OpenaiProvider.embeddings_create")
+    def test_client_embeddings_create(self, mock_openai):
+        # Mock responses from providers
+        mock_openai.return_value = [0.0023064255] * 32
+
+        # Provider configurations
+        provider_configs = {
+            "openai": {"api_key": "test_openai_api_key"},
+        }
+
+        # Initialize the client
+        client = Client()
+        client.configure(provider_configs)
+
+        # Test OpenAI model
+        open_ai_model = "openai" + ":" + "text-embedding-ada-002"
+        openai_response = client.embeddings.create(open_ai_model, "Hello, world!")
+        self.assertEqual(openai_response, [0.0023064255] * 32)
+        mock_openai.assert_called_once()
+
+        # Test that the `embeddings` property returns the same instance
+        embeddings_instance = client.embeddings
+        next_embeddings_instance = client.embeddings
+        assert embeddings_instance is next_embeddings_instance
+
     def test_invalid_provider_in_client_config(self):
         # Testing an invalid provider name in the configuration
         invalid_provider_configs = {

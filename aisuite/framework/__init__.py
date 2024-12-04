@@ -1,3 +1,3 @@
 from .provider_interface import ProviderInterface
 from .chat_completion_response import ChatCompletionResponse
-from .embeddings_response import EmbeddingsResponse
+from .create_embedddings_response import CreateEmbeddingResponse

@@ -1,7 +1,7 @@
 import os
 import httpx
 from aisuite.provider import Provider, LLMError
-from aisuite.framework import ChatCompletionResponse, EmbeddingsResponse
+from aisuite.framework import ChatCompletionResponse, CreateEmbeddingResponse
 
 
 class OllamaProvider(Provider):
@@ -95,7 +95,9 @@ class OllamaProvider(Provider):
         """
         Normalize the API response to a common format (EmbeddingsResponse).
         """
-        normalized_response = EmbeddingsResponse()
+        normalized_response = CreateEmbeddingResponse(
+            number=len(response_data["embeddings"])
+        )
 
         # Handle multiple outputs
         for i, embedding in enumerate(response_data["embeddings"]):

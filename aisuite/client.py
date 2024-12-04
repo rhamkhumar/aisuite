@@ -24,6 +24,7 @@ class Client:
         self.providers = {}
         self.provider_configs = provider_configs
         self._chat = None
+        self._embeddings = None
         self._initialize_providers()
 
     def _initialize_providers(self):
@@ -68,7 +69,9 @@ class Client:
     @property
     def embeddings(self):
         """Return the embeddings API interface."""
-        return Embeddings(self)
+        if not self._embeddings:
+            self._embeddings = Embeddings(self)
+        return self._embeddings
 
 
 class Chat:
