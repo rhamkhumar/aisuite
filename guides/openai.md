@@ -41,4 +41,25 @@ response = client.chat.completions.create(
 print(response.choices[0].message.content)
 ```
 
+## Get Text Embeddings
+You can generate text embeddings using OpenAI embedding models with the `aisuite` client:
+```python
+import aisuite as ai
+
+client = ai.Client()
+
+provider = "openai"
+embedding_model_id = "text-embedding-ada-002"
+
+input_text = ["This is an example sentence for embeddings."]
+
+response = client.embeddings.create(
+    model=f"{provider}:{embedding_model_id}",
+    input=input_text,
+)
+
+embeddings = response.data[0].embedding
+print("Embeddings:", embeddings)
+```
+
 Happy coding! If you’d like to contribute, please read our [Contributing Guide](CONTRIBUTING.md).
