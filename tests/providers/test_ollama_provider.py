@@ -140,8 +140,6 @@ def test_multiple_embeddings_creation():
             json={"model": "best-model-ever", "input": ["Howdy!", "Hello!"]},
             timeout=30,
         )
-        print(response.data[0].embedding)
-        print(response.data[1].embedding)
         assert response.data[0].embedding == [
             0.010071029,
             -0.0017594862,

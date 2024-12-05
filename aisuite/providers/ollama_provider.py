@@ -99,7 +99,7 @@ class OllamaProvider(Provider):
             number=len(response_data["embeddings"])
         )
 
-        # Handle multiple outputs
+        # Set the embeddings in the response
         for i, embedding in enumerate(response_data["embeddings"]):
             normalized_response.data[i].embedding = embedding
 
