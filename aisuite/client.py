@@ -24,6 +24,7 @@ class Client:
         self.providers = {}
         self.provider_configs = provider_configs
         self._chat = None
+        self._embeddings = None
         self._initialize_providers()
 
     def _initialize_providers(self):
@@ -64,6 +65,13 @@ class Client:
         if not self._chat:
             self._chat = Chat(self)
         return self._chat
+
+    @property
+    def embeddings(self):
+        """Return the embeddings API interface."""
+        if not self._embeddings:
+            self._embeddings = Embeddings(self)
+        return self._embeddings
 
 
 class Chat:
@@ -115,3 +123,43 @@ class Completions:
 
         # Delegate the chat completion to the correct provider's implementation
         return provider.chat_completions_create(model_name, messages, **kwargs)
+
+
+class Embeddings:
+    def __init__(self, client: "Client"):
+        self.client = client
+
+    def create(self, model: str, text: str, **kwargs):
+        """
+        Create embeddings based on the model, text, and any extra arguments.
+        """
+        # Check that correct format is used
+        if ":" not in model:
+            raise ValueError(
+                f"Invalid model format. Expected 'provider:model', got '{model}'"
+            )
+
+        # Extract the provider key from the model identifier, e.g., "google:gemini-xx"
+        provider_key, model_name = model.split(":", 1)
+
+        # Validate if the provider is supported
+        supported_providers = ProviderFactory.get_supported_providers()
+        if provider_key not in supported_providers:
+            raise ValueError(
+                f"Invalid provider key '{provider_key}'. Supported providers: {supported_providers}. "
+                "Make sure the model string is formatted correctly as 'provider:model'."
+            )
+
+        # Initialize provider if not already initialized
+        if provider_key not in self.client.providers:
+            config = self.client.provider_configs.get(provider_key, {})
+            self.client.providers[provider_key] = ProviderFactory.create_provider(
+                provider_key, config
+            )
+
+        provider = self.client.providers.get(provider_key)
+        if not provider:
+            raise ValueError(f"Could not load provider for '{provider_key}'.")
+
+        # Delegate the embeddings creation to the correct provider's implementation
+        return provider.embeddings_create(model_name, text, **kwargs)

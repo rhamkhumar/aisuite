@@ -31,3 +31,12 @@ class OpenaiProvider(Provider):
             messages=messages,
             **kwargs  # Pass any additional arguments to the OpenAI API
         )
+
+    def embeddings_create(self, model, input, **kwargs):
+        # Refer to the OpenAI API documentation for details on the parameters and response:
+        # https://platform.openai.com/docs/api-reference/embeddings/create?lang=python
+        return self.client.embeddings.create(
+            model=model,
+            input=input,
+            **kwargs  # Pass any additional arguments to the OpenAI API
+        )
