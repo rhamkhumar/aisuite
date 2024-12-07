@@ -22,7 +22,5 @@ class VLLMProvider(Provider):
 
     def chat_completions_create(self, model, messages, **kwargs):
         return self.client.chat.completions.create(
-            model=model,
-            messages=messages,
-            **kwargs
+            model=model, messages=messages, **kwargs
         )
