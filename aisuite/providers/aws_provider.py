@@ -33,11 +33,12 @@ class AwsProvider(Provider):
             **config: Configuration options for the provider.
 
         """
-        
+
         # Supporting multi-regional round-robin
         self.region_names = config.get(
-            "region_name", os.getenv("AWS_REGION_NAME", "us-west-2")
+            "region_name", os.getenv("AWS_REGION", "us-west-2")
         ).split("/")
+
 
         self.inference_parameters = [
             "maxTokens",
