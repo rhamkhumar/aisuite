@@ -2,16 +2,16 @@
 name = "aisuite"
 version = "0.1.7"
 description = "Uniform access layer for LLMs"
-authors = ["Andrew Ng"]
+authors = ["Andrew Ng", "Rohit, P"]
 maintainers = [
-    { email = "standsleeping@gmail.com" },
-    { name = "Kevin Solorio" },
-    { name = "Rohit Prasad", email = "rohit.prasad15@gmail.com" },
-    { name = "Jeff Tang" },
-    { name = "Andrew Ng" },
-    { name = "John Santerre" },
-    { name = "Zachary Bloss", email = "zacharybloss@gmail.com" },
-    { email = "rohit-rptless" }
+    "standsleeping@gmail.com",
+    "Kevin Solorio",
+    "Rohit Prasad <rohit.prasad15@gmail.com>",
+    "Jeff Tang",
+    "Andrew Ng",
+    "John Santerre",
+    "Zachary Bloss <zacharybloss@gmail.com>",
+    "rohit-rptless"
 ]
 readme = "README.md"
 
@@ -24,6 +24,7 @@ groq = { version = "^0.9.0", optional = true }
 mistralai = { version = "^1.0.3", optional = true }
 openai = { version = "^1.35.8", optional = true }
 httpx = {version = "^0.27.2", optional = true}
+ibm-watsonx-ai = { version = "^1.1.16", optional = true }
 
 [tool.poetry.extras]
 anthropic = ["anthropic"]
@@ -36,10 +37,10 @@ mistral = ["mistralai"]
 ollama = []
 openai = ["openai"]
 snowflake = ["httpx"]
-all = ["anthropic", "aws", "google", "groq", "mistral", "openai", "snowflake"]  # To install all providers
+watsonx = ["ibm-watsonx-ai"]
+all = ["anthropic", "aws", "google", "groq", "mistral", "openai", "snowflake", "watsonx"]  # To install all providers
 
 [tool.poetry.group.dev.dependencies]
-pytest = "^8.2.2"
 pre-commit = "^3.7.1"
 black = "^24.4.2"
 python-dotenv = "^1.0.1"
@@ -55,7 +56,22 @@ chromadb = "^0.5.4"
 sentence-transformers = "^3.0.1"
 datasets = "^2.20.0"
 vertexai = "^1.63.0"
+ibm-watsonx-ai = "^1.1.16"
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+pytest = "^8.2.2"
+pytest-cov = "^6.0.0"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+testpaths="tests"
+addopts=[
+    "--cov=aisuite",
+    "--cov-report=term-missing"
+]

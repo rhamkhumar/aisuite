@@ -9,7 +9,10 @@ Here're the instructions for:
 - [Google](google.md)
 - [Hugging Face](huggingface.md)
 - [OpenAI](openai.md)
+- [SambaNova](sambanova.md)
+- [xAI](xai.md)
 - [Snowflake](snowflake.md)
+
 
 Unless otherwise stated, these guides have not been endorsed by the providers. 
 
